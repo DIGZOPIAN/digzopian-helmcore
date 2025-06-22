@@ -1,0 +1,22 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build-job:
+  stage: build
+  script:
+    - echo "🛠️ Building Digzopian HelmCore..."
+    - ls -la
+
+test-job:
+  stage: test
+  script:
+    - echo "🧪 Running tests (none defined yet)..."
+
+deploy-job:
+  stage: deploy
+  script:
+    - echo "🚀 Auto-deploying (placeholder)"
+  only:
+    - main
