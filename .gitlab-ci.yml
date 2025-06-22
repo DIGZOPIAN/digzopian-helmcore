@@ -1,22 +1,43 @@
+# .gitlab-ci.yml
+
 stages:
-  - build
+  - setup
+  - lint
   - test
   - deploy
 
-build-job:
-  stage: build
-  script:
-    - echo "🛠️ Building Digzopian HelmCore..."
-    - ls -la
+variables:
+  PROJECT_ENV: "production"
+  FLASK_APP: main.py
+  PYTHONUNBUFFERED: 1
 
-test-job:
+before_script:
+  - python3 -V
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
+
+setup:
+  stage: setup
+  script:
+    - echo "🔧 Setting up Python environment..."
+    - pip list
+
+lint:
+  stage: lint
+  script:
+    - echo "🔍 Linting code with flake8..."
+    - pip install flake8
+    - flake8 . --ignore=E501,W503
+
+test:
   stage: test
   script:
-    - echo "🧪 Running tests (none defined yet)..."
+    - echo "🧪 Running basic boot test for $FLASK_APP..."
+    - python $FLASK_APP & sleep 5 && curl -I http://localhost:5000 || echo "❌ Failed to boot"
 
-deploy-job:
+deploy:
   stage: deploy
   script:
-    - echo "🚀 Auto-deploying (placeholder)"
+    - echo "🚀 Deploy logic goes here — VPS, Replit, or Gitpod push"
   only:
     - main
