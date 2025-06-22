@@ -1,14 +1,19 @@
 image:
-  file: .gitpod.Dockerfile
+  file: gitpod.Dockerfile
 
 tasks:
-  - init: pip install -r requirements.txt || true
-    command: python3 main.py
+  - name: Start Digzopian HelmCore
+    command: |
+      pip install -r requirements.txt
+      python3 flask_ui.py
+
+ports:
+  - port: 5000
+    onOpen: open-preview
 
 vscode:
   extensions:
     - ms-python.python
-
-ports:
-  - port: 8000
-    onOpen: open-preview
+  openFiles:
+    - flask_ui.py
+    - README.md
